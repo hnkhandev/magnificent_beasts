@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:magnificent_beasts/add_beast.dart';
 
 import 'beast.dart';
 
@@ -11,10 +12,9 @@ class HomePage extends StatelessWidget {
     beasts.add(beast);
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-          child: Text(
-            'My Beasts',
-          ),
+        centerTitle: true,
+        title: Text(
+          'My Beasts',
         ),
       ),
       body: Column(
@@ -30,8 +30,12 @@ class HomePage extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                   child: Card(
-                    child: Text(
-                        '${beasts[index].name}\n${beasts[index].medicalHistory}'),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 10),
+                      child: Text(
+                          '${beasts[index].name}\n${beasts[index].medicalHistory}'),
+                    ),
                   ),
                 );
               },
@@ -40,7 +44,12 @@ class HomePage extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => null,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddBeast()),
+          );
+        },
       ),
     );
   }
