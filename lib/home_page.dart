@@ -20,32 +20,58 @@ class _HomePageState extends State<HomePage> {
           'My Beasts',
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Flexible(
-            child: ListView.builder(
-              itemCount: beasts.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  height: 300,
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                  child: Card(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 10),
-                      child: Text(
-                          '${beasts[index].name}\n${beasts[index].medicalHistory}'),
-                    ),
+      body: beasts.length == 0
+          ? Center(child: Text('You have no beasts added!'))
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Flexible(
+                  child: ListView.builder(
+                    itemCount: beasts.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        height: 300,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 12, horizontal: 16),
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15)),
+                          child: Stack(
+                            fit: StackFit.passthrough,
+                            children: <Widget>[
+                              ClipRRect(
+                                child: Container(
+                                  child: Image.file(
+                                    beasts[index].photo,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                borderRadius: BorderRadius.horizontal(
+                                  left: Radius.circular(15),
+                                  right: Radius.circular(15),
+                                ),
+                              ),
+                              Positioned(
+                                bottom: 10,
+                                left: 10,
+                                child: Text(
+                                  beasts[index].name,
+                                  style: TextStyle(
+                                    fontSize: 24,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           final createdBeast = await Navigator.push(
@@ -58,6 +84,7 @@ class _HomePageState extends State<HomePage> {
             }
           });
         },
+        child: Icon(Icons.add),
       ),
     );
   }
