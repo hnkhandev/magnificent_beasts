@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:magnificent_beasts/add_beast.dart';
-
 import 'beast.dart';
 
-class HomePage extends StatelessWidget {
-  final beast = Beast(name: 'Kitty', medicalHistory: 'Needs vaccination');
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final List<Beast> beasts = [];
 
   @override
   Widget build(BuildContext context) {
-    beasts.add(beast);
+    for (Beast beast in beasts) print(beast.name);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -44,11 +47,16 @@ class HomePage extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
+        onPressed: () async {
+          final createdBeast = await Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => AddBeast()),
           );
+          setState(() {
+            if (createdBeast != null) {
+              beasts.add((createdBeast));
+            }
+          });
         },
       ),
     );

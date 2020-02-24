@@ -13,11 +13,8 @@ class _AddBeastState extends State<AddBeast> {
   TextEditingController nameController;
   TextEditingController bioController;
   TextEditingController medicalHistoryController;
-  List<TextEditingController> reminders;
-
+  List<TextEditingController> reminders = [];
   File beastPhoto;
-
-  void _addBeast() {}
 
   @override
   void initState() {
@@ -29,12 +26,27 @@ class _AddBeastState extends State<AddBeast> {
   }
 
   @override
-  void deactivate() {
+  void dispose() {
     nameController.dispose();
     bioController.dispose();
     medicalHistoryController.dispose();
     for (TextEditingController controller in reminders) controller.dispose();
-    super.deactivate();
+    super.dispose();
+  }
+
+  void _addBeast() {
+    List<String> remindersList = [];
+    for (TextEditingController controller in reminders)
+      remindersList.add(controller.text);
+
+    Beast beast = Beast(
+      name: nameController.text,
+      bio: bioController.text,
+      medicalHistory: medicalHistoryController.text,
+      reminders: remindersList,
+      photo: beastPhoto,
+    );
+    Navigator.pop(context, beast);
   }
 
   void _pickPhoto() async {
@@ -61,7 +73,7 @@ class _AddBeastState extends State<AddBeast> {
               'ADD BEAST',
               style: TextStyle(color: Colors.white),
             ),
-            onPressed: () => null,
+            onPressed: () => _addBeast(),
           ),
         ],
       ),
@@ -77,6 +89,7 @@ class _AddBeastState extends State<AddBeast> {
                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                 child: Form(
                   child: TextFormField(
+                    controller: nameController,
                     style: TextStyle(
                       fontSize: 22,
                     ),
@@ -131,6 +144,7 @@ class _AddBeastState extends State<AddBeast> {
                     Expanded(
                       child: Form(
                         child: TextFormField(
+                          controller: bioController,
                           maxLines: null,
                           style: TextStyle(
                             fontSize: 18,
@@ -162,6 +176,7 @@ class _AddBeastState extends State<AddBeast> {
                     Expanded(
                       child: Form(
                         child: TextFormField(
+                          controller: medicalHistoryController,
                           maxLines: null,
                           style: TextStyle(
                             fontSize: 18,
