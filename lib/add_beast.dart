@@ -159,7 +159,6 @@ class _AddBeastState extends State<AddBeast> {
                   ],
                 ),
               ),
-              Divider(),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 2),
                 child: Row(
@@ -191,7 +190,6 @@ class _AddBeastState extends State<AddBeast> {
                   ],
                 ),
               ),
-              Divider(),
               ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,

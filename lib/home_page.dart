@@ -21,7 +21,9 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: beasts.length == 0
-          ? Center(child: Text('You have no beasts added!'))
+          ? Center(
+              child: Text('You have no beasts added!',
+                  style: TextStyle(color: Colors.grey[700])))
           : Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisSize: MainAxisSize.min,
