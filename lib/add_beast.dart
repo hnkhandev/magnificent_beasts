@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddBeast extends StatefulWidget {
   @override
@@ -9,6 +12,21 @@ class _AddBeastState extends State<AddBeast> {
   final List<TextEditingController> reminders = [
     TextEditingController(),
   ];
+
+  File beastPhoto;
+
+  void _pickPhoto() async {
+    try {
+      final photo = await ImagePicker.pickImage(source: ImageSource.gallery);
+      if (photo != null) {
+        setState(() {
+          beastPhoto = photo;
+        });
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,18 +72,28 @@ class _AddBeastState extends State<AddBeast> {
                   fit: StackFit.passthrough,
                   alignment: AlignmentDirectional.center,
                   children: <Widget>[
-                    Container(
-                      height: 200,
-                      color: Colors.grey,
-                    ),
-                    Text(
-                      'ADD PHOTO',
-                      style: TextStyle(color: Colors.white),
-                      textAlign: TextAlign.center,
-                    ),
+                    if (beastPhoto == null)
+                      Container(
+                        height: 200,
+                        color: Colors.grey,
+                      ),
+                    if (beastPhoto != null)
+                      Container(
+                        height: 200,
+                        child: Image.file(
+                          beastPhoto,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    if (beastPhoto == null)
+                      Text(
+                        'ADD PHOTO',
+                        style: TextStyle(color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
                   ],
                 ),
-                onTap: () => null,
+                onTap: () => _pickPhoto(),
               ),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 2),
@@ -184,9 +212,7 @@ class _AddBeastState extends State<AddBeast> {
                   padding: EdgeInsets.fromLTRB(57, 4, 0, 4),
                   child: Text(
                     'Add Another Reminder',
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
+                    style: TextStyle(fontSize: 18, color: Colors.blue),
                   ),
                 ),
                 onTap: () {
