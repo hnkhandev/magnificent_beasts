@@ -5,12 +5,12 @@ class Beast {
   final String profile;
   final List<String> reminders;
   final String medicalHistory;
-  final File beastPhoto;
+  final File photo;
 
   Beast(
       {this.name,
       this.profile,
       this.reminders,
       this.medicalHistory,
-      this.beastPhoto});
+      this.photo});
 }

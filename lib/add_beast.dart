@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:magnificent_beasts/beast.dart';
 
 class AddBeast extends StatefulWidget {
   @override
@@ -9,11 +10,32 @@ class AddBeast extends StatefulWidget {
 }
 
 class _AddBeastState extends State<AddBeast> {
-  final List<TextEditingController> reminders = [
-    TextEditingController(),
-  ];
+  TextEditingController nameController;
+  TextEditingController bioController;
+  TextEditingController medicalHistoryController;
+  List<TextEditingController> reminders;
 
   File beastPhoto;
+
+  void _addBeast() {}
+
+  @override
+  void initState() {
+    nameController = TextEditingController();
+    bioController = TextEditingController();
+    medicalHistoryController = TextEditingController();
+    reminders.add(TextEditingController());
+    super.initState();
+  }
+
+  @override
+  void deactivate() {
+    nameController.dispose();
+    bioController.dispose();
+    medicalHistoryController.dispose();
+    for (TextEditingController controller in reminders) controller.dispose();
+    super.deactivate();
+  }
 
   void _pickPhoto() async {
     try {
